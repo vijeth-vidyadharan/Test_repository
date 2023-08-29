@@ -1,0 +1,76 @@
+﻿
+@model EditViewModel
+
+@{
+    ViewBag.Title = "Edit employee ";
+    var photopath = "~/IMG/" + (@Model.ExistingPhotoPath ?? "VijethPhoto.jpg");
+}
+
+<html>
+
+    @*enctype="multipart/form-data" is for including the upload photo*@
+    
+  <form enctype="multipart/form-data" asp-controller="home" asp-action="Edit" method="post" class="mt-3" >
+      @*hidden file which is not visible to user---------------------------------*@
+      <input hidden asp-for="Id" />
+      <input hidden asp-for="ExistingPhotoPath" />
+      @*-------------------------------------------------------------------------*@
+    <div class="form-group row">
+        <label asp-for="Name" class="col-sm-2">Name</label > 
+        <input asp-for="Name" class="form-control"  placeholder="Name"/>
+        <span asp-validation-for="Name" class="text-danger" ></span>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="Email" class="col-sm-2">Email</label>
+        <input asp-for="Email" class="form-control" placeholder="Email"/>
+        <span asp-validation-for="Email" class="text-danger"></span>
+
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="Department" class="col-sm-2">Department</label>
+        <select asp-for="Department"  asp-items="Html.GetEnumSelectList<Departments>()" >
+            <option value="" >please select</option>
+            
+        </select>
+        <span asp-validation-for="Department" class="text-danger"></span>
+        
+    </div>
+
+
+    <div class="form-group row">
+        <label asp-for="PhotoLocation" class="col-sm-2">Photo</label>
+        <div>
+            <input asp-for="PhotoLocation" class="form-control" placeholder="Email"/>
+            <label class="custom-file-label">Choose file ......</label>
+            <span asp-validation-for="PhotoLocation" class="text-danger"></span>
+        </div>
+
+    </div>
+
+    <div>
+        <img src="@photopath" class="photoframe" asp-append-version="true" />
+    </div>
+
+
+    <div class="form-group row">
+        <button type="submit" >Submit</button>
+    </div>
+    
+    @*This script is required to display the selected file in the file upload element*@
+
+    @section Scripts {
+        <script>
+            $(document).ready(function () {
+                $('.custom-file-input').on("change", function () {
+                    var fileName = $(this).val().split("\\").pop();
+                    $(this).next('.custom-file-label').html(fileName);
+                });
+            });
+        </script>
+    }
+
+
+  </form >
+</html>

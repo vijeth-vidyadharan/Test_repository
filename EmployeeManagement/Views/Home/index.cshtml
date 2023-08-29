@@ -1,0 +1,65 @@
+﻿@*
+@model IEnumerable<Employee>
+ 
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";   // view is there in viewstart
+    ViewBag.Title = "Employees";
+}
+
+        <table>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>MailId</th>
+                <th>Department</th>
+            </tr>
+            @foreach (var i in  Model)
+                {
+                    <tr>
+                        <th>@i.Id</th>
+                    <th>@i.Name</th>
+                    <th>@i.Email</th>
+                    <th>@i.Department</th>
+                    </tr>
+                        
+                    
+                }
+        </table>
+        @section Scripts
+        {<script src="~/JS/CustomScript.js"> </script>
+        }
+
+    
+*@
+
+@*-----------------------------------------------------------------------*@
+@model IEnumerable<Employee>
+
+@{
+    ViewBag.Title = "Employee List";
+    
+}
+
+<div class="card-deck">
+    @foreach (var employee in Model)
+    {
+        var photoPath = "~/IMG/" + (employee.PhotoLocation  ?? "VijethPhoto.jpg");
+
+        <div class="card-img">
+            <div class="card-header">
+                <h3>@employee.Name</h3>
+            </div>
+            <img class="photoFrame card-img-top" src=@photoPath asp-append-version="true" />  @*image tag helper*@
+            <div class="card-footer text-center">
+                <a asp-controller="Home" asp-action="details" asp-route-id=@employee.Id class="btn btn-primary m-1">View</a>   @*Using HTML helper*@
+               @* <a href="/Home/details/@employee.Id" class="btn btn-primary">View</a>  using h ref*@
+
+                <a  asp-controller="home" asp-action="Edit" asp-route-id=@employee.Id
+                class="btn btn-primary m-1 ">Edit</a>
+
+                <a href="#" class="btn btn-danger m-1">Delete</a>
+            </div>
+        </div>
+    }
+</div>
